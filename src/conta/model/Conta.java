@@ -2,9 +2,6 @@ package conta.model;
 
 public class Conta {
 
-<<<<<<< HEAD
-    
-=======
     //Atributos
     private int numero;
     private int agencia;
@@ -61,5 +58,4 @@ public class Conta {
     public void setSaldo(float saldo) {
         this.saldo = saldo;
     }
->>>>>>> main
 }
