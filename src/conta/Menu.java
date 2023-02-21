@@ -13,8 +13,8 @@ public class Menu {
 
         while (true) {
             System.out.println(Cores.TEXT_YELLOW + Cores.ANSI_BLACK_BACKGROUND
-                              +"***************************************************");
-            System.out.println("\n                     COIN BANK                     ");
+                              +"*****************************************************");
+            System.out.println("\n                     Banco de Duloc                ");
             System.out.println("\n***************************************************");
             System.out.println("                1 - CRIAR CONTA                      ");
             System.out.println("                2 - LISTAR CONTAS                    ");
@@ -32,7 +32,7 @@ public class Menu {
             opcao = sc.nextInt();
 
             if (opcao == 9) {
-                System.out.println(Cores.TEXT_WHITE_BOLD + "\nObrigado por usar a Coin Bank!");
+                System.out.println(Cores.TEXT_WHITE_BOLD + "\nObrigado por usar o Banco de Duloc!");
                 sc.close();//Fecha o Scanner (evita erros)
                 System.exit(0);//Fecha o programa corretamente
             }
