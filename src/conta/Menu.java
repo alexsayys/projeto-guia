@@ -1,5 +1,6 @@
 package conta;
 
+import conta.model.Conta;
 import conta.util.Cores;
 
 import java.util.Scanner;
@@ -7,14 +8,21 @@ import java.util.Scanner;
 public class Menu {
     public static void main(String[] args) {
 
+        Conta c1 = new Conta(1, 123, 1, "Adriana", 10000.0f);
+        c1.visualizar();
+        c1.sacar(12000.0f);
+        c1.visualizar();
+        c1.depositar(5000.0f);
+        c1.visualizar();
+
         Scanner sc = new Scanner(System.in);
 
         int opcao;
 
         while (true) {
             System.out.println(Cores.TEXT_YELLOW + Cores.ANSI_BLACK_BACKGROUND
-                              +"***************************************************");
-            System.out.println("\n                     COIN BANK                     ");
+                              +"*****************************************************");
+            System.out.println("\n                     Banco de Duloc                ");
             System.out.println("\n***************************************************");
             System.out.println("                1 - CRIAR CONTA                      ");
             System.out.println("                2 - LISTAR CONTAS                    ");
@@ -32,7 +40,7 @@ public class Menu {
             opcao = sc.nextInt();
 
             if (opcao == 9) {
-                System.out.println(Cores.TEXT_WHITE_BOLD + "\nObrigado por usar a Coin Bank!");
+                System.out.println(Cores.TEXT_WHITE_BOLD + "\nObrigado por usar o Banco de Duloc!");
                 sc.close();//Fecha o Scanner (evita erros)
                 System.exit(0);//Fecha o programa corretamente
             }
