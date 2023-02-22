@@ -5,6 +5,7 @@ import conta.model.ContaCorrente;
 import conta.model.ContaPoupanca;
 import conta.util.Cores;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -57,7 +58,13 @@ public class Menu {
             System.out.println("ENTRE COM A OPÇÃO:                                   "+ Cores.TEXT_RESET);
             //System.out.println("                                                     "+ Cores.TEXT_RESET);
 
-            opcao = sc.nextInt();
+            try {
+                opcao = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("\nDigite valores inteiros!");
+                sc.nextLine();
+                opcao = 0;
+            }
 
             if (opcao == 9) {
                 System.out.println(Cores.TEXT_WHITE_BOLD + "\nObrigado por usar o Banco de Duloc!");
