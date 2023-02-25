@@ -1,5 +1,6 @@
 package conta;
 
+import conta.controller.ContaController;
 import conta.model.Conta;
 import conta.model.ContaCorrente;
 import conta.model.ContaPoupanca;
@@ -12,26 +13,26 @@ import java.util.Scanner;
 public class Menu {
     public static void main(String[] args) {
 
-        //Teste da Classe Conta Corrente
-        ContaCorrente cc1 = new ContaCorrente(2,123,1,"Mariana",15000.0f,1000.0f);
-        cc1.visualizar();
-        cc1.sacar(12000.0f);
-        cc1.visualizar();
-        cc1.depositar(5000.0f);
-        cc1.visualizar();
-
-        //Teste da Classe Conta Poupança
-        ContaPoupanca cp1 = new ContaPoupanca(3,123,2,"Victor",100000.0f,15);
-        cp1.visualizar();
-        cp1.sacar(1000.0f);
-        cp1.visualizar();
-        cp1.depositar(5000.0f);
-        cp1.visualizar();
-
+        ContaController contas = new ContaController();
 
         Scanner sc = new Scanner(System.in);
 
-        int opcao;
+        int opcao, numero, agencia, tipo, aniversario;
+        String titular;
+        float saldo, limite;
+
+        System.out.println("\nCriar contas\n");
+
+        ContaCorrente cc1 = new ContaCorrente(contas.gerarNumero(),123,1,"João da Silva", 1000f, 100.0f);
+        contas.cadastrar(cc1);
+        ContaCorrente cc2 = new ContaCorrente(contas.gerarNumero(), 124,1,"Maria da Silva", 2000f,100.0f);
+        contas.cadastrar(cc2);
+        ContaPoupanca cp1 = new ContaPoupanca(contas.gerarNumero(),125,2,"Mariana dos Santos",4000f,12);
+        contas.cadastrar(cp1);
+        ContaPoupanca cp2 = new ContaPoupanca(contas.gerarNumero(),125,2,"Juliana Ramos",8000f,15);
+        contas.cadastrar(cp2);
+
+        contas.listarTodas();
 
         while (true) {
             System.out.println(Cores.TEXT_YELLOW + Cores.ANSI_BLACK_BACKGROUND
@@ -68,26 +69,112 @@ public class Menu {
             switch (opcao) {
                 case 1:
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nCriar conta");
+
+                    System.out.println("\nDigite o número da agência: ");
+                    agencia = sc.nextInt();
+                    System.out.println("\nDigite o nome do titular: ");
+                    sc.skip("\\R?");
+                    titular = sc.nextLine();
+
+                    do {
+
+                        System.out.println("Digite o tipo da conta (1-cc ou 2-cp): ");
+                        tipo = sc.nextInt();
+                    } while (tipo < 1 && tipo > 2);
+
+                    System.out.println("\nDigite o saldo da conta (R$): ");
+                    saldo = sc.nextFloat();
+
+                    switch (tipo) {
+
+                        case 1 -> {
+
+                            System.out.println("\nDigite o limite de crédito (R$): ");
+                            limite = sc.nextFloat();
+                            contas.cadastrar(new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite));
+                        }
+                        case 2 -> {
+
+                            System.out.println("\nDigite o aniversário da conta: ");
+                            aniversario = sc.nextInt();
+                            contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+                        }
+                    }
                     keyPress();
                     break;
 
                 case 2:
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nListar todas as contas");
+                    contas.listarTodas();
                     keyPress();
                     break;
 
                 case 3:
+
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nConsultar dados da conta por número");
+
+                    System.out.println("\nDigite o número da conta: ");
+                    numero = sc.nextInt();
+
+                    contas.procurarPorNumero(numero);
+
                     keyPress();
                     break;
 
                 case 4:
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nAtualizar dados da conta");
+
+                    System.out.println("Digite o número da conta: ");
+                    numero = sc.nextInt();
+
+                    if (contas.buscarNaCollection(numero) != null) {
+
+                        System.out.println("\nDigite o número da agência: ");
+                        agencia = sc.nextInt();
+
+                        System.out.println("\nDigite o nome do titular: ");
+                        sc.skip("\\R?");
+                        titular = sc.nextLine();
+
+                        System.out.println("\nDigite o saldo da conta (R$): ");
+                        saldo = sc.nextFloat();
+
+                        tipo = contas.retornaTipo(numero);
+
+                        switch (tipo) {
+
+                            case 1 -> {
+
+                                System.out.println("\nDigite o limite de crédito: ");
+                                limite = sc.nextFloat();
+                                contas.atualizar(new ContaCorrente(numero, agencia, tipo, titular, saldo, limite));
+                            }
+                            case 2 -> {
+
+                                System.out.println("\nDigite o dia do aniversário da conta: ");
+                                aniversario = sc.nextInt();
+                                contas.atualizar(new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario));
+                            }
+                            default -> {
+
+                                System.out.println("\nTipo de conta inválido!");
+                            }
+                        }
+
+                    }
+
                     keyPress();
                     break;
 
                 case 5:
+
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nApagar conta");
+
+                    System.out.println("\nDigite o número da conta: ");
+                    numero = sc.nextInt();
+
+                    contas.deletar(numero);
+
                     keyPress();
                     break;
 
@@ -100,6 +187,7 @@ public class Menu {
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nDepósitar");
                     keyPress();
                     break;
+
                 case 8:
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nTransferir");
 
