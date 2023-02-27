@@ -17,9 +17,9 @@ public class Menu {
 
         Scanner sc = new Scanner(System.in);
 
-        int opcao, numero, agencia, tipo, aniversario;
+        int opcao, numero, agencia, tipo, aniversario, numeroDestino;
         String titular;
-        float saldo, limite;
+        float saldo, limite, valor;
 
         System.out.println("\nCriar contas\n");
 
@@ -180,16 +180,57 @@ public class Menu {
 
                 case 6:
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nSacar");
+
+                    System.out.println("\nDigite o número da conta: ");
+                    numero = sc.nextInt();
+
+                    do {
+
+                        System.out.println("\nDigite o valor do Saque (R$): ");
+                        valor = sc.nextInt();
+                    } while (valor <= 0);
+
+                    contas.sacar(numero, valor);
+
                     keyPress();
                     break;
 
                 case 7:
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nDepósitar");
+
+                    System.out.println("\nDigite o número da conta: ");
+                    numero = sc.nextInt();
+
+                    do {
+
+                        System.out.println("\nDigite o valor do depósito: (R$): ");
+                        valor = sc.nextFloat();
+                    } while (valor <= 0);
+
+                    contas.depositar(numero, valor);
+
                     keyPress();
                     break;
 
                 case 8:
                     System.out.println(Cores.TEXT_PURPLE_BOLD + "\nTransferir");
+
+                    System.out.println("\nDigite o número da conta de origem: ");
+                    numero = sc.nextInt();
+
+                    System.out.println("\nDigite o número da conta de destino: ");
+                    numeroDestino = sc.nextInt();
+
+                    do {
+
+                        System.out.println("\nDigite o valor da transferência (R$): ");
+                        valor = sc.nextFloat();
+                    } while (valor <= 0);
+
+                    contas.transferir(numero, numeroDestino, valor);
+
+                    keyPress();
+                    break;
 
                 default:
                     System.out.println(Cores.TEXT_RED_BOLD + "\nOpção Inválida!" + Cores.TEXT_RESET);
